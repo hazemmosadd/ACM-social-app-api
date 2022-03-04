@@ -42,21 +42,22 @@ const updateUser = async (req, res) => {
   res.send(user);
 };
 
-
-const updateUserFields = async (req , res)=>{
-  const updates =Object.keys(req.body) 
+const updateUserFields = async (req, res) => {
+  const updates = Object.keys(req.body);
   const { id } = req.params;
+
   try {
-    const user = User.findById(id)
-    updates.foreach(update=>{
-    user[update] = req.body[update]
-    })
+    const user = await User.findById(id);
+
+    updates.forEach((update) => {
+      user[update] = req.body[update];
+    });
     await user.save();
     res.send(user);
   } catch (error) {
     res.status(400).send(error);
   }
-}
+};
 
 module.exports = {
   createUser,
@@ -64,5 +65,5 @@ module.exports = {
   findUser,
   deleteUser,
   updateUser,
-  updateUserFields ,
+  updateUserFields,
 };
